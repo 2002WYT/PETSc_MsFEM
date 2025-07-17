@@ -4,6 +4,8 @@
 
 This project implements the Multiscale Finite Element Method (MsFEM) using the PETSc library. MsFEM is a numerical method for solving problems with multiscale features, such as flow and transport in heterogeneous materials.
 
+![MsFEM Result](msfem01.png) 
+
 **Key Features:**
 
 *   High-performance computing using the PETSc library.
