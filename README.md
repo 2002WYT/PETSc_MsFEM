@@ -124,10 +124,10 @@ This project implements the Multiscale Finite Element Method (MsFEM) using the P
 4.  **Run:** Run the program using MPI. For example:
 
     ```bash
-    mpirun -n 4 ./main2 -fine 256 -coarse 32
+    mpirun -n 4 ./main2 -fine 64 -coarse 16
     ```
 
-    `-n 4` indicates that 4 processes are used.  `-fine 256 -coarse 32` are example program-specific options.  Consult your code to see what options are available.
+    `-n 4` indicates that 4 processes are used.  `-fine 64 -coarse 16` are example program-specific options.  Consult your code to see what options are available.
 
 **Efficiency:**
 
