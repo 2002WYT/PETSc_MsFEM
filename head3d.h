@@ -27,8 +27,8 @@ typedef struct user_context {
     PetscInt example;
     PetscReal epsilon;
     PetscInt nele, nelec, nelel, nnodes, nnodesc, nnodesl;
-    DM dmlocal_node, dmcoarse_node;
-    DMDALocalInfo info_local, info_coarse;
+    DM dmcoarse_node;
+    DMDALocalInfo info_coarse;
     Mat pnbd;
     Vec zerobdcoarseDMDA;
     PetscScalar KElocal[8][8];

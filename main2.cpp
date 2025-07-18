@@ -373,7 +373,6 @@ int main(int argc, char **argv) {
     PetscCall(MatDestroy(&Ac));
     PetscCall(VecDestroy(&bc));
     PetscCall(VecDestroy(&bclocal));
-    PetscCall(DMDestroy(&ctx.dmlocal_node));
     PetscCall(DMDestroy(&ctx.dmcoarse_node));
     PetscCall(MatDestroy(&ctx.pnbd));
     PetscCall(VecDestroy(&ctx.zerobdcoarseDMDA));

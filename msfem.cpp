@@ -159,20 +159,12 @@ PetscErrorCode setDMDAinit(UserCtx *ctx)
 {
     PetscFunctionBeginUser;
     PetscCall(DMDACreate3d(PETSC_COMM_WORLD, DM_BOUNDARY_NONE, DM_BOUNDARY_NONE,
-        DM_BOUNDARY_NONE, DMDA_STENCIL_BOX, ctx->nx+1, ctx->ny+1,
-        ctx->nz+1, PETSC_DECIDE, PETSC_DECIDE, PETSC_DECIDE, 1, 1, NULL,
-        NULL, NULL, &ctx->dmlocal_node));
-    PetscCall(DMSetFromOptions(ctx->dmlocal_node));
-    PetscCall(DMSetUp(ctx->dmlocal_node));
-    PetscCall(DMDACreate3d(PETSC_COMM_WORLD, DM_BOUNDARY_NONE, DM_BOUNDARY_NONE,
         DM_BOUNDARY_NONE, DMDA_STENCIL_BOX, ctx->Nx+1, ctx->Ny+1,
         ctx->Nz+1, PETSC_DECIDE, PETSC_DECIDE, PETSC_DECIDE, 1, 1, NULL,
         NULL, NULL, &ctx->dmcoarse_node));
     PetscCall(DMSetFromOptions(ctx->dmcoarse_node));
     PetscCall(DMSetUp(ctx->dmcoarse_node));
     
-
-    PetscCall(DMDAGetLocalInfo(ctx->dmlocal_node, &ctx->info_local));
     PetscCall(DMDAGetLocalInfo(ctx->dmcoarse_node, &ctx->info_coarse));
     PetscFunctionReturn(0);
 }
@@ -639,6 +631,7 @@ PetscErrorCode calculate_3d(UserCtx *ctx, PetscInt nx,
 
     PetscCall(KSPDestroy(&ksp));
     PetscCall(MatDestroy(&Acopy));
+    delete [] bdidx;
     PetscFunctionReturn(0);
 }
 PetscErrorCode get_exact_solution_3d(PetscInt x0, PetscInt xl, 
