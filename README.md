@@ -129,7 +129,7 @@ This project implements the Multiscale Finite Element Method (MsFEM) using the P
 
     `-n 4` indicates that 4 processes are used.  `-fine 256 -coarse 32` are example program-specific options.  Consult your code to see what options are available.
 
-**Efficiency**
+**Efficiency:**
 
 This project provides a good illustration of strong and weak parallelism.
 ![Efficiency1](images/eff1.png)
