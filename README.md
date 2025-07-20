@@ -156,3 +156,8 @@ If you have any questions or suggestions, please submit them via GitHub issues.
 **Acknowledgments:**
 
 Thanks to the PETSc team for providing an excellent library.
+
+**Aspirations:**
+
+Through working on this project I learned how to use DMGlobaltoLocal to assemble right term vector b by DMDA stencils.
+Moreover, I learned using PETSC_COMM_SELF to create matrices on different MPI sessions. It's quite helpful!
