@@ -18,6 +18,7 @@ This project implements the Multiscale Finite Element Method (MsFEM) using the P
 *   `main2.cpp`: Main program entry point. Sets up the problem, calls the MsFEM solver, and outputs the results.
 *   `msfem.cpp`: Contains the specific implementation of the MsFEM algorithm, such as constructing basis functions, assembling the stiffness matrix, and solving the linear system.
 *   `head3d.h`: Defines the mesh data for the 3D head model.
+*   `main_fem.cpp`: a mix FEM main 3d program for elliptic equation.
 
 **Dependencies:**
 
