@@ -113,7 +113,7 @@ PetscScalar zerofunc(PetscScalar x, PetscScalar y, PetscScalar z, UserCtx *ctx)
     PetscScalar u = 0.0;
     PetscFunctionReturn(u);
 }
-PetscScalar kfunc(PetscScalar x, PetscScalar y, PetscScalar z, UserCtx *ctx)
+PetscScalar kfunc1(PetscScalar x, PetscScalar y, PetscScalar z, UserCtx *ctx)
 {
     PetscFunctionBeginUser;
     PetscScalar kappa;
@@ -132,7 +132,7 @@ PetscScalar kfunc(PetscScalar x, PetscScalar y, PetscScalar z, UserCtx *ctx)
 
     PetscFunctionReturn(kappa);
 }
-PetscScalar ffunc(PetscScalar x, PetscScalar y, PetscScalar z, UserCtx *ctx)
+PetscScalar ffunc1(PetscScalar x, PetscScalar y, PetscScalar z, UserCtx *ctx)
 {
     PetscFunctionBeginUser;
     PetscScalar f = 0.0;
@@ -207,7 +207,7 @@ PetscErrorCode setpnbd(UserCtx *ctx)
     PetscCall(VecSet(ctx->zerobdcoarseDMDA, 0.0));
     PetscFunctionReturn(0);
 }
-PetscErrorCode lk(PetscScalar hx, PetscScalar hy, PetscScalar hz, 
+PetscErrorCode lk1(PetscScalar hx, PetscScalar hy, PetscScalar hz, 
     PetscScalar KE[8][8])
 {
     PetscFunctionBeginUser;
@@ -303,7 +303,7 @@ PetscErrorCode solvefem3d(UserCtx *ctx, PetscScalar x0, PetscScalar xl,
     PetscCall(MatSetUp(B));
     PetscCall(MatZeroEntries(R));
     PetscScalar KE[8][8];
-    PetscCall(lk(hx, hy, hz, KE));
+    PetscCall(lk1(hx, hy, hz, KE));
     PetscInt Istart, Iend;
     PetscCall(MatGetOwnershipRange(A, &Istart, &Iend));
     for (PetscInt i = Istart; i < Iend; ++i) 
@@ -318,9 +318,9 @@ PetscErrorCode solvefem3d(UserCtx *ctx, PetscScalar x0, PetscScalar xl,
         PetscScalar centercoor[3] = {x0 + (ix+0.5)*hx, 
             y0 + (iy+0.5)*hy, z0 + (iz+0.5)*hz};
         PetscScalar kcenter = 
-            kfunc(centercoor[0], centercoor[1], centercoor[2], ctx);
+            kfunc1(centercoor[0], centercoor[1], centercoor[2], ctx);
         PetscScalar fcenter = 
-            ffunc(centercoor[0], centercoor[1], centercoor[2], ctx);
+            ffunc1(centercoor[0], centercoor[1], centercoor[2], ctx);
         PetscScalar DDidx[8][8];
         for (PetscInt l = 0; l < 8; l++) {
             if (idxx[l] == 0 || idxx[l] == nx ||
@@ -416,7 +416,7 @@ PetscErrorCode solvefem3dvec(UserCtx *ctx, PetscScalar x0, PetscScalar xl,
     PetscInt sizeb;
     PetscCall(VecGetSize(b, &sizeb));
     PetscScalar KE[8][8];
-    PetscCall(lk(hx, hy, hz, KE));
+    PetscCall(lk1(hx, hy, hz, KE));
     PetscInt Istart, Iend, I1, I2;
     PetscCall(MatGetOwnershipRange(A, &Istart, &Iend));
     for (PetscInt i = Istart; i < Iend; ++i) 
@@ -431,7 +431,7 @@ PetscErrorCode solvefem3dvec(UserCtx *ctx, PetscScalar x0, PetscScalar xl,
         PetscScalar centercoor[3] = {x0 + (ix+0.5)*hx, 
             y0 + (iy+0.5)*hy, z0 + (iz+0.5)*hz};
         PetscScalar kcenter = 
-            kfunc(centercoor[0], centercoor[1], centercoor[2], ctx);
+            kfunc1(centercoor[0], centercoor[1], centercoor[2], ctx);
         PetscScalar DDidx[8][8];
         for (PetscInt l = 0; l < 8; l++) {
             for (PetscInt ll = 0; ll < 8; ll++) {
@@ -451,7 +451,7 @@ PetscErrorCode solvefem3dvec(UserCtx *ctx, PetscScalar x0, PetscScalar xl,
         PetscInt ix = ires / (ny + 1);
         PetscInt iy = ires - ix * (ny + 1);
         if (ix == nx || iy == ny || iz == nz) continue;
-        PetscScalar fcenter = ffunc(x0 + (ix+0.5)*hx, y0 + (iy+0.5)*hy, 
+        PetscScalar fcenter = ffunc1(x0 + (ix+0.5)*hx, y0 + (iy+0.5)*hy, 
             z0 + (iz+0.5)*hz, ctx);
         PetscInt idx[8], idxx[8], idxy[8], idxz[8];
         PetscCall(block_points(nx, ny, nz, i, ix, iy, iz, idx, idxx, idxy, idxz));
@@ -510,7 +510,7 @@ PetscErrorCode get_stiff_3d(UserCtx *ctx, PetscScalar x0, PetscScalar xl,
     PetscScalar hz = (zl - z0) / nz;
     PetscCall(MatZeroEntries(A));
     PetscScalar KE[8][8];
-    PetscCall(lk(hx, hy, hz, KE));
+    PetscCall(lk1(hx, hy, hz, KE));
     PetscInt Istart, Iend;
     PetscCall(MatGetOwnershipRange(A, &Istart, &Iend));
     for (PetscInt i = Istart; i < Iend; ++i) 
@@ -525,7 +525,7 @@ PetscErrorCode get_stiff_3d(UserCtx *ctx, PetscScalar x0, PetscScalar xl,
         PetscScalar centercoor[3] = {x0 + (ix+0.5)*hx, 
             y0 + (iy+0.5)*hy, z0 + (iz+0.5)*hz};
         PetscScalar kcenter = 
-            kfunc(centercoor[0], centercoor[1], centercoor[2], ctx);
+            kfunc1(centercoor[0], centercoor[1], centercoor[2], ctx);
         PetscScalar DDidx[8][8];
         for (PetscInt l = 0; l < 8; l++) {
             for (PetscInt ll = 0; ll < 8; ll++) {
@@ -567,7 +567,7 @@ PetscErrorCode get_rightterm_3d(UserCtx *ctx, PetscScalar x0, PetscScalar xl,
         if (functype == 0) {
             fcenter = 0.0;
         } else if (functype == 1) {
-            fcenter = ffunc(centercoor[0], centercoor[1], centercoor[2], ctx);
+            fcenter = ffunc1(centercoor[0], centercoor[1], centercoor[2], ctx);
         } else {
             SETERRQ(PETSC_COMM_SELF, PETSC_ERR_ARG_WRONG, "Invalid functype");
         }
@@ -584,7 +584,7 @@ PetscErrorCode get_rightterm_3d(UserCtx *ctx, PetscScalar x0, PetscScalar xl,
     PetscCall(MatAssemblyEnd(B, MAT_FINAL_ASSEMBLY));
     PetscFunctionReturn(0);
 }
-PetscErrorCode calculate_3d(UserCtx *ctx, PetscInt nx,
+PetscErrorCode calculate_3d1(UserCtx *ctx, PetscInt nx,
     PetscInt ny, PetscInt nz, PetscInt rhs, Mat &R, Mat bd, Mat &A, Mat &B)
 {
     PetscFunctionBeginUser;
@@ -623,6 +623,7 @@ PetscErrorCode calculate_3d(UserCtx *ctx, PetscInt nx,
     PetscCall(KSPSetFromOptions(ksp));
     PetscCall(KSPGetPC(ksp, &pc));
     PetscCall(PCSetType(pc, PCLU));
+    // PetscCall(PCFactorSetMatSolverType(pc, MATSOLVERSUPERLU_DIST));
     PetscCall(KSPSetTolerances(ksp, 1e-6, PETSC_DEFAULT, PETSC_DEFAULT, 1000));
     PetscCall(KSPSetUp(ksp));
     PetscCall(KSPMatSolve(ksp, B, R));
@@ -723,7 +724,7 @@ PetscErrorCode solvefem3dvecDMDA(UserCtx *ctx, PetscScalar x0, PetscScalar xl,
     PetscCall(DMCreateGlobalVector(dm, &b));
     PetscCall(VecSet(b, 0.0));
     PetscScalar KE[8][8];
-    PetscCall(lk(hx, hy, hz, KE));
+    PetscCall(lk1(hx, hy, hz, KE));
     DMDALocalInfo info;
     PetscCall(DMDAGetLocalInfo(dm, &info));
     PetscInt xs = info.xs, ys = info.ys, zs = info.zs;
@@ -740,8 +741,8 @@ PetscErrorCode solvefem3dvecDMDA(UserCtx *ctx, PetscScalar x0, PetscScalar xl,
         PetscScalar centercoor[3] = {x0 + (ix+0.5)*hx, 
             y0 + (iy+0.5)*hy, z0 + (iz+0.5)*hz};
         PetscScalar kcenter = 
-            kfunc(centercoor[0], centercoor[1], centercoor[2], ctx);
-        PetscScalar fcenter = ffunc(x0 + (ix+0.5)*hx, y0 + (iy+0.5)*hy, 
+            kfunc1(centercoor[0], centercoor[1], centercoor[2], ctx);
+        PetscScalar fcenter = ffunc1(x0 + (ix+0.5)*hx, y0 + (iy+0.5)*hy, 
             z0 + (iz+0.5)*hz, ctx);
         PetscScalar DDidx[8][8];
         for (PetscInt l = 0; l < 8; l++) {

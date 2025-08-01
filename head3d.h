@@ -43,11 +43,11 @@ PetscErrorCode Outputbasic(UserCtx *ctx);
 PetscErrorCode SetMeshSize(UserCtx *ctx);
 PetscScalar uefunc(PetscScalar x, PetscScalar y, PetscScalar z, UserCtx *ctx);
 PetscScalar zerofunc(PetscScalar x, PetscScalar y, PetscScalar z, UserCtx *ctx);
-PetscScalar kfunc(PetscScalar x, PetscScalar y, PetscScalar z, UserCtx *ctx);
-PetscScalar ffunc(PetscScalar x, PetscScalar y, PetscScalar z, UserCtx *ctx);
+PetscScalar kfunc1(PetscScalar x, PetscScalar y, PetscScalar z, UserCtx *ctx);
+PetscScalar ffunc1(PetscScalar x, PetscScalar y, PetscScalar z, UserCtx *ctx);
 PetscErrorCode setDMDAinit(UserCtx *ctx);
 PetscErrorCode setpnbd(UserCtx *ctx);
-PetscErrorCode lk(PetscScalar hx, PetscScalar hy, PetscScalar hz, 
+PetscErrorCode lk1(PetscScalar hx, PetscScalar hy, PetscScalar hz, 
     PetscScalar KE[8][8]);
 PetscErrorCode block_points(PetscInt nx, PetscInt ny, PetscInt nz, PetscInt Ii, 
     PetscInt ix, PetscInt iy, PetscInt iz, 
@@ -64,7 +64,7 @@ PetscErrorCode get_stiff_3d(UserCtx *ctx, PetscScalar x0, PetscScalar xl,
 PetscErrorCode get_rightterm_3d(UserCtx *ctx, PetscScalar x0, PetscScalar xl, 
     PetscScalar y0, PetscScalar yl, PetscScalar z0, PetscScalar zl, PetscInt nx,
     PetscInt ny, PetscInt nz, PetscInt rhs, Mat &B, PetscInt functype);
-PetscErrorCode calculate_3d(UserCtx *ctx, PetscInt nx,
+PetscErrorCode calculate_3d1(UserCtx *ctx, PetscInt nx,
     PetscInt ny, PetscInt nz, PetscInt rhs, Mat &R, Mat bd, Mat &A, Mat &B);
 PetscErrorCode get_exact_solution_3d(PetscInt x0, PetscInt xl, 
     PetscInt y0, PetscInt yl, PetscInt z0, PetscInt zl, PetscInt nx, PetscInt ny, 
